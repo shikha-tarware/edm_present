@@ -68,7 +68,7 @@ def add_donation_items(request):
           print (e)
           pass    
 
-      LoadDonorObj = (DonationId=DonationId,DonationDate=DonationDate,ItemCategory=ItemCategory,Others=Others,NumOfPounds=NumOfPounds,PurchaseByICH=PurchaseByICH,Comments=Comments)
+      LoadDonorObj = ItemDonations(DonationId=DonationId,DonationDate=DonationDate,ItemCategory=ItemCategory,Others=Others,NumOfPounds=NumOfPounds,PurchaseByICH=PurchaseByICH,Comments=Comments)
       LoadDonorObj.save()
 
       return render(request,'ics_tool/donations_success.html',{})
