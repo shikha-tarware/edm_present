@@ -19,16 +19,59 @@ from .models import *
 def health(request):
     return HttpResponse("3")
 
+
 def add_donation_monetary(request):
     template_name = 'ics_tool/add_donation_monetary.html'
 
     if request.method == "GET":
-       ListValue = Donors.objects.filter().values()
-       return render(request, template_name, {'ListValue',ListValue})
+        return render(request, template_name)
 
     form = AddMonetaryDonationForm(request.POST)
     if form.is_valid():
-       return render(request,'ics_tool/donations_success.html',{})
+		Amount		   	 = request.POST.get('Amount', '')
+		ModeOfPayment    = request.POST.get('ModeOfPayment', '')
+    try:
+          d = MonetaryDonation.objects.get(Amount=Amount,ModeOfPayment=ModeOfPayment)
+          return render(request,'ics_tool/add_donation_monetary.html',{'Error':'Name and Email Combination Exist'})
+    except Exception as e:
+          print (e)
+          pass    
+
+      LoadDonorObj = MonetaryDonation(Amount=Amount,ModeOfPayment=ModeOfPayment)
+      LoadDonorObj.save()
+
+      return render(request,'ics_tool/donations_success.html',{})
+
+    print(form.errors)
+
+    return render(request,'ics_tool/add_donor.html',{})
+
+def add_donation_items(request):
+    template_name = 'ics_tool/add_donation_items.html'
+
+    if request.method == "GET":
+        return render(request, template_name)
+
+    form = AddItemDonationForm(request.POST)
+    if form.is_valid():
+		DonationId		 = request.POST.get('DonationId', '')
+		DonationDate	 = request.POST.get('DonationDate', '')
+		ItemCategory  	 = request.POST.get('ItemCategory', '')
+		Others  	 	 = request.POST.get('Others', '')
+		NumOfPounds 	 = request.POST.get('NumOfPounds', '')
+		PurchaseByICH	 = request.POST.get('PurchaseByICH', '')
+		Comments	 	 = request.POST.get('Comments', '')
+    try:
+          d = ItemDonations.objects.get(DonationId=DonationId,DonationDate=DonationDate,ItemCategory=ItemCategory,Others=Others,NumOfPounds=NumOfPounds,PurchaseByICH=PurchaseByICH,Comments=Comments)
+          return render(request,'ics_tool/add_donation_items.html',{'Error':'Invalid Entry Exist'})
+    except Exception as e:
+          print (e)
+          pass    
+
+      LoadDonorObj = (DonationId=DonationId,DonationDate=DonationDate,ItemCategory=ItemCategory,Others=Others,NumOfPounds=NumOfPounds,PurchaseByICH=PurchaseByICH,Comments=Comments)
+      LoadDonorObj.save()
+
+      return render(request,'ics_tool/donations_success.html',{})
 
     print(form.errors)
 
