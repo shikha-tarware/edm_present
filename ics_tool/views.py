@@ -19,6 +19,34 @@ from .models import *
 def health(request):
     return HttpResponse("3")
 
+def add_donation_monetary(request):
+    template_name = 'ics_tool/add_donation_monetary.html'
+
+    if request.method == "GET":
+	   ListValue = Donor.objects.filter().values()
+	   return render(request, template_name, {'ListValue',ListValue})
+
+    form = AddMonetaryDonationForm(request.POST)
+    if form.is_valid():
+		Amount		   	 = request.POST.get('Amount', '')
+		ModeOfPayment    = request.POST.get('ModeOfPayment', '')
+    try:
+          d = MonetaryDonations.objects.get(Amount=Amount,ModeOfPayment=ModeOfPayment)
+          return render(request,'ics_tool/add_donation_monetary.html',{'Error':'Name and Email Combination Exist'})
+    except Exception as e:
+          print (e)
+          pass    
+
+      LoadDonorObj = Donors(Amount=Amount,ModeOfPayment=ModeOfPayment)
+      LoadDonorObj.save()
+
+      return render(request,'ics_tool/donations_success.html',{})
+
+    print(form.errors)
+
+    return render(request,'ics_tool/add_donor.html',{})
+
+
 @login_required
 def index(request):
     template_name = 'ics_tool/home.html'
@@ -165,30 +193,3 @@ def feedback(request):
 
     return render(request,'ics_tool/home.html',{})
 
-def add_donation_monetary(request):
-    template_name = 'ics_tool/add_donation_monetary.html'
-
-    if request.method == "GET":
-	ListValue = Donor.objects.filter().values()
-	
-    return render(request, template_name, {'ListValue',ListValue})
-
-    form = AddMonetaryDonationForm(request.POST)
-    if form.is_valid():
-		Amount		   	 = request.POST.get('Amount', '')
-		ModeOfPayment    = request.POST.get('ModeOfPayment', '')
-    try:
-          d = MonetaryDonations.objects.get(Amount=Amount,ModeOfPayment=ModeOfPayment)
-          return render(request,'ics_tool/add_donation_monetary.html',{'Error':'Name and Email Combination Exist'})
-    except Exception as e:
-          print (e)
-          pass    
-
-      LoadDonorObj = Donors(Amount=Amount,ModeOfPayment=ModeOfPayment)
-      LoadDonorObj.save()
-
-      return render(request,'ics_tool/donations_success.html',{})
-
-    print(form.errors)
-
-    return render(request,'ics_tool/add_donor.html',{})
