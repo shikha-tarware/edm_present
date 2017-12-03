@@ -169,9 +169,9 @@ def add_donation_monetary(request):
     template_name = 'ics_tool/add_donation_monetary.html'
 
     if request.method == "GET":
-		ListValue = {}
-		ListValue = Donors.get()
-        return render(request, template_name, {ListValue})
+	ListValue = Donor.objects.filter().values()
+	
+    return render(request, template_name, {'ListValue',ListValue})
 
     form = AddMonetaryDonationForm(request.POST)
     if form.is_valid():
