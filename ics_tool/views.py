@@ -28,7 +28,7 @@ def add_donation_monetary(request):
 
     form = AddMonetaryDonationForm(request.POST)
     if form.is_valid():
-		Amount		   	 = request.POST.get('Amount', '')
+		Amount		 = request.POST.get('Amount', '')
 		ModeOfPayment    = request.POST.get('ModeOfPayment', '')
     try:
           d = MonetaryDonation.objects.get(Amount=Amount,ModeOfPayment=ModeOfPayment)
@@ -54,13 +54,13 @@ def add_donation_items(request):
 
     form = AddItemDonationForm(request.POST)
     if form.is_valid():
-		DonationId		 = request.POST.get('DonationId', '')
+		DonationId	 = request.POST.get('DonationId', '')
 		DonationDate	 = request.POST.get('DonationDate', '')
 		ItemCategory  	 = request.POST.get('ItemCategory', '')
-		Others  	 	 = request.POST.get('Others', '')
+		Others  	 = request.POST.get('Others', '')
 		NumOfPounds 	 = request.POST.get('NumOfPounds', '')
 		PurchaseByICH	 = request.POST.get('PurchaseByICH', '')
-		Comments	 	 = request.POST.get('Comments', '')
+		Comments	 = request.POST.get('Comments', '')
     try:
           d = ItemDonations.objects.get(DonationId=DonationId,DonationDate=DonationDate,ItemCategory=ItemCategory,Others=Others,NumOfPounds=NumOfPounds,PurchaseByICH=PurchaseByICH,Comments=Comments)
           return render(request,'ics_tool/add_donation_items.html',{'Error':'Invalid Entry Exist'})
