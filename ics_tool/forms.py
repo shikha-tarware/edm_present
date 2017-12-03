@@ -70,3 +70,24 @@ class AddDonationsForm(forms.ModelForm):
     class Meta:
         model = Donors
         fields = '__all__'
+        
+class AddMonetaryDonationForm(forms.ModelForm):
+    Amount			    = forms.CharField(max_length=100)
+    ModeOfPayment	    = forms.CharField(max_length=100)
+
+    class Meta:
+        model = MonetaryDonation
+        fields = '__all__'
+
+class AddItemDonationForm(forms.ModelForm):
+	DonationId		 = forms.CharField(max_length=100)
+	DonationDate	 = forms.CharField(max_length=100)
+	ItemCategory  	 = forms.CharField(max_length=100)
+	Others			 = forms.CharField(max_length=100)
+	NumOfPounds 	 = forms.CharField(max_length=100)
+	PurchaseByICH	 = forms.CharField(max_length=100)
+	Comments	 	 = forms.CharField(max_length=100)
+	
+    class Meta:
+        model = ItemDonations
+        fields = '__all__'
